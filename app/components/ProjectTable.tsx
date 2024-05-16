@@ -6,14 +6,16 @@ import styles from "./ProjectTable.module.css";
 import { TABLE_CONTAINER_HEIGHT } from "../modules/constants";
 import { CreateProjectModal } from "./CreateProjectModal";
 import { useAtom } from "jotai";
-import { showCreateModalAtom } from "../modules/atoms";
+import { showCreateModalAtom, cachedTokenAtom } from "../modules/atoms";
 import Link from "next/link";
 
 interface ProjectTableProps {
   data: ProjectList[];
+  token: string;
 }
 
-export const ProjectTable = ({ data }: ProjectTableProps) => {
+export const ProjectTable = ({ data, token }: ProjectTableProps) => {
+  const [cachedToken, setCachedToken] = useAtom(cachedTokenAtom);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState<string | null>(null);
@@ -56,6 +58,10 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
       setTableContainerHeight(TABLE_CONTAINER_HEIGHT * 1.8);
     }
   }, [itemsPerPage]);
+
+  useEffect(() => {
+    setCachedToken(token);
+  }, []);
 
   return (
     <div className={styles.container}>

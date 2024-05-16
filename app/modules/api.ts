@@ -1,12 +1,8 @@
 import { BASE_URL } from "./constants";
 import { ProjectList } from "./types";
 
-let cachedToken: string | null = null;
-
-async function getToken() {
+export async function getToken() {
   require("dotenv").config();
-
-  if (cachedToken) return cachedToken;
 
   const baseUrl = `${BASE_URL}/authenticate`;
   const username = process.env.USER_NAME;
@@ -32,8 +28,6 @@ async function getToken() {
 
     const response = await accessTokenResponse.json();
     const token = response.token;
-
-    cachedToken = token;
 
     return token;
   } catch (error) {
@@ -68,14 +62,12 @@ export const fetchProjectList = async (): Promise<ProjectList[]> => {
   }
 };
 
-export const createProject = async (name: string) => {
+export const createProject = async (name: string, cachedToken: string) => {
   const url = `${BASE_URL}/project.json`;
   const ontologyId = 34956166;
 
-  const accessToken = await getToken();
-
   const headers = {
-    Authorization: `Bearer ${accessToken}`,
+    Authorization: `Bearer ${cachedToken}`,
     "Content-Type": "application/json",
   };
 

@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import { useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import styles from "./CreateProjectModal.module.css";
-import { showCreateModalAtom } from "../modules/atoms";
+import { cachedTokenAtom, showCreateModalAtom } from "../modules/atoms";
 import { createProject } from "../modules/api";
 
 export const CreateProjectModal = () => {
   const setShowCreateModal = useSetAtom(showCreateModalAtom);
   const [currentName, setCurrentName] = useState<string>("");
   const [currentOntology, setCurrentOntology] = useState("34955997_test_ontology");
+  const cachedToken = useAtomValue(cachedTokenAtom);
 
   const handleSave = async () => {
     try {
-      await createProject(currentName);
+      await createProject(currentName, cachedToken);
       alert("Project created successfully!");
     } catch (error) {
       console.error("Error in handleSave()", error);

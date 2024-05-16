@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ProjectList } from "../modules/types";
 import styles from "./ProjectTable.module.css";
+import { TABLE_CONTAINER_HEIGHT } from "../modules/constants";
 
 interface ProjectTableProps {
   data: ProjectList[];
@@ -36,10 +37,24 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
     currentPage * itemsPerPage
   );
 
+  const handlePerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setItemsPerPage(Number(event.target.value));
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Project</h1>
-      <div className={styles.tableContainer}>
+      <div
+        className={styles.tableContainer}
+        style={{
+          height:
+            itemsPerPage === 15
+              ? `${TABLE_CONTAINER_HEIGHT * 1.4}px`
+              : itemsPerPage === 20
+              ? `${TABLE_CONTAINER_HEIGHT * 1.8}px`
+              : undefined,
+        }}
+      >
         <table>
           <thead>
             <tr>
@@ -102,7 +117,15 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
           </tbody>
         </table>
         <div className={styles.tableFooter}>
-          <input className={styles.perPageInput} placeholder={`${itemsPerPage} per page`} />
+          <select
+            className={styles.perPageInput}
+            value={itemsPerPage}
+            onChange={handlePerPageChange}
+          >
+            <option value={10}>10 per page</option>
+            <option value={15}>15 per page</option>
+            <option value={20}>20 per page</option>
+          </select>
           <div className={styles.pagination}>
             {Array.from({ length: Math.ceil(data.length / itemsPerPage) }, (_, i) => i + 1).map(
               pageNumber => (

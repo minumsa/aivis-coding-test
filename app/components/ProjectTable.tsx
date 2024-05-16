@@ -5,6 +5,8 @@ import { ProjectList } from "../modules/types";
 import styles from "./ProjectTable.module.css";
 import { TABLE_CONTAINER_HEIGHT } from "../modules/constants";
 import { CreateProjectModal } from "./CreateProjectModal";
+import { useAtom } from "jotai";
+import { showCreateModalAtom } from "../modules/atoms";
 
 interface ProjectTableProps {
   data: ProjectList[];
@@ -18,7 +20,7 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const label = ["", "id", "name", "onthologyName", "numberOfImages", "created"];
   const [tableContainerHeight, setTableContainerHeight] = useState<number>(TABLE_CONTAINER_HEIGHT);
-  const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
+  const [showCreateModal, setShowCreateModal] = useAtom<boolean>(showCreateModalAtom);
 
   console.log("showCreateModal", showCreateModal);
 

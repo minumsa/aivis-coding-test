@@ -20,3 +20,29 @@
   padding: 20px;
   box-sizing: border-box;
 }
+
+.modalActions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.buttonCancel {
+  background-color: #fff;
+  padding: 5px 10px;
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: #287ec4;
+  border-radius: 10px;
+  border: 1px solid #287ec4;
+  width: 45%;
+}
+
+.buttonSave {
+  background-color: #287ec4;
+  padding: 5px 10px;
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 10px;
+  width: 45%;
+}

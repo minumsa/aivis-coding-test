@@ -2,14 +2,21 @@ import React, { useState } from "react";
 import { useSetAtom } from "jotai";
 import styles from "./CreateProjectModal.module.css";
 import { showCreateModalAtom } from "../modules/atoms";
+import { createProject } from "../modules/api";
 
 export const CreateProjectModal = () => {
   const setShowCreateModal = useSetAtom(showCreateModalAtom);
-  const [name, setName] = useState<string>("");
+  const [currentName, setCurrentName] = useState<string>("");
   const [currentOntology, setCurrentOntology] = useState("34955997_test_ontology");
 
-  const handleSave = () => {
-    console.log("Save clicked");
+  const handleSave = async () => {
+    try {
+      await createProject(currentName);
+      alert("Project created successfully!");
+    } catch (error) {
+      console.error("Error in handleSave()", error);
+      alert("Failed to create project");
+    }
   };
 
   const handleCancel = () => {
@@ -28,7 +35,7 @@ export const CreateProjectModal = () => {
           <input
             className={styles.input}
             placeholder="create a new project by typing its name and pressing Enter"
-            onChange={e => setName(e.target.value)}
+            onChange={e => setCurrentName(e.target.value)}
           />
         </div>
         <div className={styles.inputBlockWrapper}>

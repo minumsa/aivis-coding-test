@@ -1,8 +1,12 @@
 import { BASE_URL } from "./constants";
 import { ProjectList } from "./types";
 
+let cachedToken: string | null = null;
+
 async function getToken() {
   require("dotenv").config();
+
+  if (cachedToken) return cachedToken;
 
   const baseUrl = `${BASE_URL}/authenticate`;
   const username = process.env.USER_NAME;
@@ -28,6 +32,8 @@ async function getToken() {
 
     const response = await accessTokenResponse.json();
     const token = response.token;
+
+    cachedToken = token;
 
     return token;
   } catch (error) {
@@ -59,5 +65,33 @@ export const fetchProjectList = async (): Promise<ProjectList[]> => {
     return collection;
   } catch (error) {
     throw new Error("Failed to fetch project list");
+  }
+};
+
+export const createProject = async (name: string) => {
+  const url = `${BASE_URL}/project.json`;
+  const ontologyId = 34956166;
+
+  const accessToken = await getToken();
+
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ name, ontologyId }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create project");
+    }
+
+    return response.json();
+  } catch (error) {
+    throw new Error("Failed to create project");
   }
 };

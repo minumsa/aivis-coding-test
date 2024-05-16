@@ -22,8 +22,6 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
   const [tableContainerHeight, setTableContainerHeight] = useState<number>(TABLE_CONTAINER_HEIGHT);
   const [showCreateModal, setShowCreateModal] = useAtom<boolean>(showCreateModalAtom);
 
-  console.log("showCreateModal", showCreateModal);
-
   const handleRowClick = (projectId: number) => {
     setSelectedProjectId(selectedProjectId === projectId ? null : projectId);
   };

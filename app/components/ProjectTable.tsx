@@ -15,7 +15,7 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>(null);
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
-  const label = ["id", "name", "onthologyName", "numberOfImages", "created"];
+  const label = ["", "id", "name", "onthologyName", "numberOfImages", "created"];
 
   const handleRowClick = (projectId: number) => {
     setSelectedProjectId(selectedProjectId === projectId ? null : projectId);
@@ -59,7 +59,8 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
           <thead>
             <tr>
               {label.map(key => {
-                const clonedDataRow = key === "onthologyName" || key === "numberOfImages";
+                const clonedDataRow =
+                  key === "onthologyName" || key === "numberOfImages" || key === "";
                 return (
                   <th key={key}>
                     <span>{key}</span>
@@ -91,30 +92,39 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
             </tr>
           </thead>
           <tbody>
-            {paginatedData.map((project, index) => (
-              <React.Fragment key={index}>
-                <tr>
-                  <td onClick={() => handleRowClick(project.id)}>{project.id}</td>
-                  <td onClick={() => handleRowClick(project.id)}>{project.name}</td>
-                  <td>{project.ontologyName}</td>
-                  <td>{project.numberOfImages}</td>
-                  <td onClick={() => handleRowClick(project.id)}>{project.created}</td>
-                </tr>
-                {selectedProjectId === project.id && (
-                  <tr key={index}>
-                    <td colSpan={5}>
-                      <h2>Selected Project Details</h2>
-                      <p>Id: {project.id}</p>
-                      <p>Name: {project.name}</p>
-                      <p>Ontology: {project.ontology}</p>
-                      <p>OnthologyName: {project.ontologyName}</p>
-                      <p>Number of Images: {project.numberOfImages}</p>
-                      <p>Created: {project.created}</p>
+            {paginatedData.map((project, index) => {
+              const isRowSelected = selectedProjectId === project.id;
+              return (
+                <React.Fragment key={index}>
+                  <tr>
+                    <td
+                      className={styles.detailToggleButton}
+                      onClick={() => handleRowClick(project.id)}
+                    >
+                      {isRowSelected ? "▼" : "▶"}
                     </td>
+                    <td>{project.id}</td>
+                    <td>{project.name}</td>
+                    <td>{project.ontologyName}</td>
+                    <td>{project.numberOfImages}</td>
+                    <td>{project.created}</td>
                   </tr>
-                )}
-              </React.Fragment>
-            ))}
+                  {isRowSelected && (
+                    <tr key={index}>
+                      <td colSpan={5}>
+                        <h2>Selected Project Details</h2>
+                        <p>Id: {project.id}</p>
+                        <p>Name: {project.name}</p>
+                        <p>Ontology: {project.ontology}</p>
+                        <p>OnthologyName: {project.ontologyName}</p>
+                        <p>Number of Images: {project.numberOfImages}</p>
+                        <p>Created: {project.created}</p>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              );
+            })}
           </tbody>
         </table>
         <div className={styles.tableFooter}>

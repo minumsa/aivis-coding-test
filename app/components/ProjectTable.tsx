@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { ProjectList } from "../modules/types";
 import styles from "./ProjectTable.module.css";
 import { TABLE_CONTAINER_HEIGHT } from "../modules/constants";
@@ -92,8 +92,8 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
           </thead>
           <tbody>
             {paginatedData.map((project, index) => (
-              <>
-                <tr key={index}>
+              <React.Fragment key={index}>
+                <tr>
                   <td onClick={() => handleRowClick(project.id)}>{project.id}</td>
                   <td onClick={() => handleRowClick(project.id)}>{project.name}</td>
                   <td>{project.ontologyName}</td>
@@ -106,13 +106,14 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
                       <h2>Selected Project Details</h2>
                       <p>Id: {project.id}</p>
                       <p>Name: {project.name}</p>
+                      <p>Ontology: {project.ontology}</p>
                       <p>OnthologyName: {project.ontologyName}</p>
                       <p>Number of Images: {project.numberOfImages}</p>
                       <p>Created: {project.created}</p>
                     </td>
                   </tr>
                 )}
-              </>
+              </React.Fragment>
             ))}
           </tbody>
         </table>

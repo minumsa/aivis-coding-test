@@ -54,7 +54,10 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Project</h1>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Project</h1>
+        <button className={styles.newProjectButton}>New Project</button>
+      </div>
       <div
         className={styles.tableContainer}
         style={{

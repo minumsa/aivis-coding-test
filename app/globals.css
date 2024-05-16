@@ -21,6 +21,13 @@ a {
   text-decoration: none;
 }
 
+button {
+  border: none;
+  outline: none;
+  background-color: inherit;
+  cursor: pointer;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

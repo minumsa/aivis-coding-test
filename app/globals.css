@@ -10,10 +10,45 @@ body {
   font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
     Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  background-color: #cacaca;
+  padding: 50px;
+  box-sizing: border-box;
 }
 
 a {
   color: inherit;
   -webkit-text-decoration: none;
   text-decoration: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  background-color: #e3f2fd;
+  color: #333;
+  font-weight: bold;
+  text-align: left;
+  padding: 10px 15px;
+  border-bottom: 2px solid #90caf9;
+}
+
+tbody td {
+  padding: 10px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #e6e6e6;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #fafafa;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
 }

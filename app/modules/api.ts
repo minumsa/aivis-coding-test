@@ -1,4 +1,5 @@
 import { BASE_URL } from "./constants";
+import { ProjectList } from "./types";
 
 async function getToken() {
   require("dotenv").config();
@@ -35,7 +36,7 @@ async function getToken() {
   }
 }
 
-export const fetchProjectList = async () => {
+export const fetchProjectList = async (): Promise<ProjectList[]> => {
   const url = `${BASE_URL}/project.json`;
   const accessToken = await getToken();
 
@@ -54,8 +55,8 @@ export const fetchProjectList = async () => {
       throw new Error("Failed to fetch project list");
     }
 
-    const data = await response.json();
-    return data;
+    const { collection } = await response.json();
+    return collection;
   } catch (error) {
     throw new Error("Failed to fetch project list");
   }

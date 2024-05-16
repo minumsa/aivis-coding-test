@@ -1,10 +1,15 @@
+import { ProjectTable } from "../components/ProjectTable";
 import { fetchProjectList } from "../modules/api";
 
 export default async function Page() {
-  const result = await fetchProjectList();
+  const data = await fetchProjectList();
 
   try {
-    return <div></div>;
+    return (
+      <div>
+        <ProjectTable data={data} />
+      </div>
+    );
   } catch (error) {
     console.error(error);
   }

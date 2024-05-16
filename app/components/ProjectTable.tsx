@@ -13,7 +13,7 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>(null);
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const label = ["id", "name", "onthologyName", "numberOfImages", "created"];
 
   const handleRowClick = (projectId: number) => {
@@ -101,19 +101,22 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
             ))}
           </tbody>
         </table>
-        <div className={styles.pagination}>
-          {Array.from({ length: Math.ceil(data.length / itemsPerPage) }, (_, i) => i + 1).map(
-            pageNumber => (
-              <button
-                className={styles.button}
-                key={pageNumber}
-                style={currentPage === pageNumber ? { color: "red" } : undefined}
-                onClick={() => handlePageChange(pageNumber)}
-              >
-                {pageNumber}
-              </button>
-            )
-          )}
+        <div className={styles.tableFooter}>
+          <input className={styles.perPageInput} placeholder={`${itemsPerPage} per page`} />
+          <div className={styles.pagination}>
+            {Array.from({ length: Math.ceil(data.length / itemsPerPage) }, (_, i) => i + 1).map(
+              pageNumber => (
+                <button
+                  className={styles.button}
+                  key={pageNumber}
+                  style={currentPage === pageNumber ? { color: "red" } : undefined}
+                  onClick={() => handlePageChange(pageNumber)}
+                >
+                  {pageNumber}
+                </button>
+              )
+            )}
+          </div>
         </div>
       </div>
     </div>

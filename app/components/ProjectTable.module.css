@@ -2,5 +2,8 @@
   width: 100%;
   overflow-x: auto;
   margin-top: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  padding: 0 0 20px 0;
 }

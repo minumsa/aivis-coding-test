@@ -11,7 +11,10 @@ interface ProjectTableProps {
 export const ProjectTable = ({ data }: ProjectTableProps) => {
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortColumn, setSortColumn] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>(null);
   const itemsPerPage = 10;
+  const label = ["id", "name", "onthologyName", "numberOfImages", "created"];
 
   const handleRowClick = (projectId: number) => {
     setSelectedProjectId(selectedProjectId === projectId ? null : projectId);
@@ -21,7 +24,26 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
     setCurrentPage(pageNumber);
   };
 
-  const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortColumn(column);
+      setSortDirection("asc");
+    }
+  };
+
+  const sortedData = [...data].sort((a: any, b: any) => {
+    if (!sortColumn || !sortDirection) return 0;
+    if (a[sortColumn] < b[sortColumn]) return sortDirection === "asc" ? -1 : 1;
+    if (a[sortColumn] > b[sortColumn]) return sortDirection === "asc" ? 1 : -1;
+    return 0;
+  });
+
+  const paginatedData = sortedData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className={styles.container}>
@@ -30,11 +52,29 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
         <table>
           <thead>
             <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>OnthologyName</th>
-              <th>Number of Images</th>
-              <th>Created</th>
+              {label.map(key => (
+                <th key={key}>
+                  <span>{key}</span>
+                  <span
+                    className={styles.arrow}
+                    onClick={() => {
+                      setSortColumn(key);
+                      setSortDirection("asc");
+                    }}
+                  >
+                    ↑
+                  </span>
+                  <span
+                    className={styles.arrow}
+                    onClick={() => {
+                      setSortColumn(key);
+                      setSortDirection("desc");
+                    }}
+                  >
+                    ↓
+                  </span>
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>

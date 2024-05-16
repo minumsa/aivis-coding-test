@@ -43,43 +43,50 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
         <table>
           <thead>
             <tr>
-              {label.map(key => (
-                <th key={key}>
-                  <span>{key}</span>
-                  <span
-                    className={styles.arrow}
-                    onClick={() => {
-                      setSortColumn(key);
-                      setSortDirection("asc");
-                    }}
-                  >
-                    ↑
-                  </span>
-                  <span
-                    className={styles.arrow}
-                    onClick={() => {
-                      setSortColumn(key);
-                      setSortDirection("desc");
-                    }}
-                  >
-                    ↓
-                  </span>
-                </th>
-              ))}
+              {label.map(key => {
+                const clonedDataRow = key === "onthologyName" || key === "numberOfImages";
+                return (
+                  <th key={key}>
+                    <span>{key}</span>
+                    {!clonedDataRow && (
+                      <>
+                        <span
+                          className={styles.arrow}
+                          onClick={() => {
+                            setSortColumn(key);
+                            setSortDirection("asc");
+                          }}
+                        >
+                          ↑
+                        </span>
+                        <span
+                          className={styles.arrow}
+                          onClick={() => {
+                            setSortColumn(key);
+                            setSortDirection("desc");
+                          }}
+                        >
+                          ↓
+                        </span>
+                      </>
+                    )}
+                  </th>
+                );
+              })}
             </tr>
           </thead>
           <tbody>
             {paginatedData.map((project, index) => (
               <>
-                <tr key={index} onClick={() => handleRowClick(project.id)}>
-                  <td>{project.id}</td>
-                  <td>{project.name}</td>
+                <tr key={index}>
+                  <td onClick={() => handleRowClick(project.id)}>{project.id}</td>
+                  <td onClick={() => handleRowClick(project.id)}>{project.name}</td>
                   <td>{project.ontologyName}</td>
                   <td>{project.numberOfImages}</td>
-                  <td>{project.created}</td>
+                  <td onClick={() => handleRowClick(project.id)}>{project.created}</td>
                 </tr>
                 {selectedProjectId === project.id && (
-                  <tr key={"new"}>
+                  <tr key={index}>
                     <td colSpan={5}>
                       <h2>Selected Project Details</h2>
                       <p>Id: {project.id}</p>

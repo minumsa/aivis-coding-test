@@ -14,6 +14,7 @@ export const CreateProjectModal = () => {
     try {
       await createProject(currentName, cachedToken);
       alert("Project created successfully!");
+      setShowCreateModal(false);
     } catch (error) {
       console.error("Error in handleSave()", error);
       alert("Failed to create project");

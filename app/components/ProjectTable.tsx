@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { ProjectList } from "../modules/types";
 import styles from "./ProjectTable.module.css";
 import { TABLE_CONTAINER_HEIGHT } from "../modules/constants";
+import { CreateProjectModal } from "./CreateProjectModal";
 
 interface ProjectTableProps {
   data: ProjectList[];
@@ -17,6 +18,9 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const label = ["", "id", "name", "onthologyName", "numberOfImages", "created"];
   const [tableContainerHeight, setTableContainerHeight] = useState<number>(TABLE_CONTAINER_HEIGHT);
+  const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
+
+  console.log("showCreateModal", showCreateModal);
 
   const handleRowClick = (projectId: number) => {
     setSelectedProjectId(selectedProjectId === projectId ? null : projectId);
@@ -54,9 +58,17 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
 
   return (
     <div className={styles.container}>
+      {showCreateModal && <CreateProjectModal />}
       <div className={styles.header}>
         <h1 className={styles.title}>Project</h1>
-        <button className={styles.newProjectButton}>New Project</button>
+        <button
+          className={styles.newProjectButton}
+          onClick={() => {
+            setShowCreateModal(true);
+          }}
+        >
+          New Project
+        </button>
       </div>
       <div
         className={styles.tableContainer}

@@ -24,15 +24,6 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
     setCurrentPage(pageNumber);
   };
 
-  const handleSort = (column: string) => {
-    if (sortColumn === column) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    } else {
-      setSortColumn(column);
-      setSortDirection("asc");
-    }
-  };
-
   const sortedData = [...data].sort((a: any, b: any) => {
     if (!sortColumn || !sortDirection) return 0;
     if (a[sortColumn] < b[sortColumn]) return sortDirection === "asc" ? -1 : 1;

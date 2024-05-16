@@ -7,6 +7,7 @@ import { TABLE_CONTAINER_HEIGHT } from "../modules/constants";
 import { CreateProjectModal } from "./CreateProjectModal";
 import { useAtom } from "jotai";
 import { showCreateModalAtom } from "../modules/atoms";
+import Link from "next/link";
 
 interface ProjectTableProps {
   data: ProjectList[];
@@ -127,7 +128,9 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
                       {isRowSelected ? "▼" : "▶"}
                     </td>
                     <td>{project.id}</td>
-                    <td>{project.name}</td>
+                    <td className={styles.projectName}>
+                      <Link href={`/project/${project.id}`}>{project.name}</Link>
+                    </td>
                     <td>{project.ontologyName}</td>
                     <td>{project.numberOfImages}</td>
                     <td>{project.created}</td>

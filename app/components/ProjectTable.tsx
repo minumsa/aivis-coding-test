@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ProjectList } from "../modules/types";
 import styles from "./ProjectTable.module.css";
 import { TABLE_CONTAINER_HEIGHT } from "../modules/constants";
@@ -16,6 +16,7 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>(null);
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const label = ["", "id", "name", "onthologyName", "numberOfImages", "created"];
+  const [tableContainerHeight, setTableContainerHeight] = useState<number>(TABLE_CONTAINER_HEIGHT);
 
   const handleRowClick = (projectId: number) => {
     setSelectedProjectId(selectedProjectId === projectId ? null : projectId);
@@ -41,18 +42,25 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
     setItemsPerPage(Number(event.target.value));
   };
 
+  useEffect(() => {
+    if (itemsPerPage === 15) {
+      setTableContainerHeight(TABLE_CONTAINER_HEIGHT * 1.4);
+    }
+
+    if (itemsPerPage === 20) {
+      setTableContainerHeight(TABLE_CONTAINER_HEIGHT * 1.8);
+    }
+  }, [itemsPerPage]);
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Project</h1>
       <div
         className={styles.tableContainer}
         style={{
-          height:
-            itemsPerPage === 15
-              ? `${TABLE_CONTAINER_HEIGHT * 1.4}px`
-              : itemsPerPage === 20
-              ? `${TABLE_CONTAINER_HEIGHT * 1.8}px`
-              : undefined,
+          height: selectedProjectId
+            ? `${tableContainerHeight + 170}px`
+            : `${tableContainerHeight}px`,
         }}
       >
         <table>
@@ -110,7 +118,7 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
                     <td>{project.created}</td>
                   </tr>
                   {isRowSelected && (
-                    <tr key={index}>
+                    <tr>
                       <td colSpan={5}>
                         <h2>Selected Project Details</h2>
                         <p>Id: {project.id}</p>

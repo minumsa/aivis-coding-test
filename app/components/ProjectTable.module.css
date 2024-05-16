@@ -1,9 +1,34 @@
-.container {
+.container .tableContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
+  height: 570px;
   overflow-x: auto;
-  margin-top: 20px;
+  padding: 30px;
+  border-radius: 20px;
+  background-color: #fff;
 }
 
 .title {
   padding: 0 0 20px 0;
+}
+
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+}
+
+.button {
+  font-size: 1.2rem;
+  color: #287ec4;
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  margin: 10px;
 }

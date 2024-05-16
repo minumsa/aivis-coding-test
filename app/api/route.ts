@@ -1,6 +1,7 @@
-import { BASE_URL } from "./constants";
+import { NextResponse } from "next/server";
+import { BASE_URL } from "../modules/constants";
 
-async function getToken() {
+export async function getToken() {
   require("dotenv").config();
 
   const baseUrl = `${BASE_URL}/authenticate`;
@@ -26,37 +27,35 @@ async function getToken() {
     }
 
     const response = await accessTokenResponse.json();
-    const token = response.token;
 
-    return token;
+    return response.access_token;
   } catch (error) {
     console.error("Error in getToken()", error);
     throw error;
   }
 }
 
-export const fetchProjectList = async () => {
-  const url = `${BASE_URL}/project.json`;
-  const accessToken = await getToken();
-
-  const headers = {
-    Authorization: `Bearer ${accessToken}`,
-    "Content-Type": "application/json",
-  };
-
+export async function GET() {
   try {
+    const accessToken = await getToken();
+
+    const url = `${BASE_URL}/project.json`;
+
     const response = await fetch(url, {
       method: "GET",
-      headers,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        cache: "no-store",
+      },
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch project list");
+      console.error("Error: project data fetch failed");
     }
 
-    const data = await response.json();
-    return data;
+    const projects = await response.json();
+    return NextResponse.json(projects);
   } catch (error) {
-    throw new Error("Failed to fetch project list");
+    console.error(error);
   }
-};
+}

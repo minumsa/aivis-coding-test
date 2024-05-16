@@ -109,6 +109,7 @@ export const ProjectTable = ({ data }: ProjectTableProps) => {
               <button
                 className={styles.button}
                 key={pageNumber}
+                style={currentPage === pageNumber ? { color: "red" } : undefined}
                 onClick={() => handlePageChange(pageNumber)}
               >
                 {pageNumber}
